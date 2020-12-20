@@ -2,13 +2,14 @@
 
 Hello!  This will be a starting guide.  I will walk through the steps needed to complete the next item in the sequence.  If you follow along, you too can create these things.
 
-I'm stealing some stuff from here: https://github.com/gmaentz/terraform_training/
+I'm using some stuff from here: https://github.com/gmaentz/terraform_training/
+I'm also using some stuff from here: https://blog.gruntwork.io/
 
 ## Set up your editor and environment
 
 Estimated Duration: 20 minutes
 
-You will need a few things installed and a few pieces of information to get started.  Your instructor will provide any necessary information (accounts, addresses, etc).  You'll need to be able edit files and run commands on your machine.  This section details a simple way to set up your environment, however you can always do things differently.  Follow these steps below to connect to your SSH account within VSCode.
+You will need a few things installed and a few pieces of information to get started.  Your instructor will provide any necessary information (accounts/logins, servers/addresses, etc).  You'll need to be able edit files and run commands on your machine.  This section details a simple way to set up your environment, however you can always do things differently.  Follow the steps below to connect to your SSH account within VSCode.
 
 ### Visual Studio Code
 
