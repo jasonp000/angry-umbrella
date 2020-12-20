@@ -5,11 +5,12 @@ provider "aws" {
 
 # Our first resource - An AWS instance called "Web_server"
 resource "aws_instance" "web_server" {
-  # The specific Amazon Machine Image (template) we wish to use - Amazon Linux 2
+  # The specific Amazon Machine Image (template) we wish to use - Amazon Linux 2 x64
   ami                    = "ami-04d29b6f966df1537"
   instance_type          = "t2.micro"
 
   # Commands to execute on instance after build
+  # Deploy a basic web server
   user_data = <<-EOF
               #!/bin/bash
               sudo yum -y install httpd
