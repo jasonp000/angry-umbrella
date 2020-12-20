@@ -79,14 +79,18 @@ There are a few steps to install and configure VSCode, but once set up it provid
 #### Task 4: Connect to your machine in VSCode
 
 1. Using the Command Palette, choose `Remote-SSH: Connect to Host...`
+
 1. Select your SSH config file
     - For Windows, this is `c:\Program Files\Git\etc\ssh\config` ???
     - For Mac or Linux, the file is `~/.ssh/config`
+
 1. Open the explorer in VSCode and choose `Open Folder`
+
 1. Navigate to `~`
+
 1. You can also launch a terminal from VSCode for remote command line execution.  I am a big fan of this.
 
-### SSH
+### SSH (optional)
 
 If you'd prefer to SSH directly into the server (instead of, or in addition to, VSCode), you can do that as well.  You should already be familiar with how to use SSH and editing from the CLI.  On Windows, use an SSH client such as PuTTY or OpenSSH. On a Linux or Mac, use the Terminal and OpenSSH to connect to your workstation.  Those details are out of scope for this documentaiton.
 
@@ -104,7 +108,7 @@ You should see something similar to:
 Terraform v0.14.3
 ```
 
-## Create A Basic AWS Instance
+## Create a basic AWS instance
 
 Estimated Duration: 25 minutes
 
@@ -112,25 +116,23 @@ After getting the above set up, you can create a basic instance in AWS!
 
 ### Create your first AWS deployment
 
-We will use Terraform to deploy a new instance to AWS.  There are a few steps we want to complete, to make sure we maintain a consistent working environment.
+We will use Terraform to deploy a new instance to AWS.  There are a few steps we want to complete, to make sure we maintain a consistent working environment and create our infrastructure.
 
 - Task 1: Create a new working directory and initial config
 - Task 2: Deploy with Terraform
 - Task 3: Get machine info & validate
 - Task 4: Update config and apply
 
-#### Task 1: Create a working directory and initial config file
+#### Task 1: Create a working directory and initial configuration file
 
 Create a new directory for your first files.  You can call this anything you want.  I will use the name `~/0-new_working_dir` in my examples...
 
 Create a file in your new directory named `main.tf` - this will be our first Terraform configuraion file.  We want our file to contain the following items to be configured:
-
 - `ami` - The actual Amazon Machine Image to build our instance from
 - `instance_type` - The type/size/specs of the instance to build
 - `tags.Name` - A simple tag for the Name parameter
 
 Your final `main.tf` file should look similar to this (with different values):
-
 ```hcl
 resource "aws_instance" "web" {
   ami                    = "ami-04d29b6f966df1537"
@@ -147,6 +149,9 @@ Don't forget to save the file before moving on!  You can configure VSCode to aut
 #### Task 2: Use Terraform to deploy your new machine
 
 ##### Navigate to the new directory and initialize Terraform:
+
+Initializing terraform will create the necessary configuration files in the current working directory that terraform will use to maintain information about your deployments.  To not modify these files unless absolutely necessary!
+
 ```shell
 cd ~/0-new_working_dir
 terraform init
@@ -157,6 +162,9 @@ Terraform has been successfully initialized!
 ```
 
 ##### Plan your new configuration, and examine the output
+
+A terraform plan is used to create an execution plan. Terraform does a refresh and determines what actions are necessary to achieve the state specified in the config files.
+
 ```shell
 terraform plan
 ...
@@ -165,6 +173,7 @@ terraform plan
 ```
 
 ##### Apply your new configuration
+
 Run the `terraform apply` command to generate 'real' resources in AWS
 
 ```shell
@@ -194,7 +203,7 @@ ping ip.add.re.ss
 
 #### Task 4: Update your machine's configuration
 
-Terraform can perform in-place updates on your instances after changes are made to the `main.tf` configuration file.
+Terraform can perform in-place updates on your instances after changes are made to the `main.tf` configuration file.  Update your config as described below.
 
 ##### Add two tags to the AWS instance in your `main.tf` file:
 
