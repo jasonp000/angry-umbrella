@@ -69,8 +69,10 @@ resource "aws_autoscaling_group" "example" {
   launch_configuration = aws_launch_configuration.example.name
   #availability_zones   = data.aws_availability_zones.all.names
   availability_zones   = ["us-east-1a"]
-  min_size = 2
-  max_size = 4
+  #min size must be 1 for aws educate account
+  min_size = 1
+  desired_capacity = 2
+  max_size = 3
   load_balancers    = [aws_elb.example.name]
   health_check_type = "ELB"
   tag {
