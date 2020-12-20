@@ -111,6 +111,13 @@ After getting the above set up, you can create a basic instance in AWS!
 
 ### Create your first AWS deployment
 
+We will use Terraform to deploy a new instance to AWS.  There are a few steps we want to complete, to make sure we maintain a consistent working environment.
+
+- Task 1: Create a new working directory and initial config
+- Task 2: Deploy with Terraform
+- Task 3: Get machine info & validate
+- Task 4: Update config and apply
+
 #### Task 1: Create a working directory and initial config file
 
 Create a new directory for your first files.  You can call this anything you want.  I will use the name `~/0-new_working_dir` in my examples...
@@ -232,10 +239,7 @@ terraform destroy
 ```
 
 You will be prompted to destroy the infrastructure.  Respond with `yes`.
-It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!
 
-You can now move to _Directory Number 1!_
+#### It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!
 
-###### This is a work in progress, as is most things in life.
-
-Thanks.
+You can now move to _Directory 1-one...!_
