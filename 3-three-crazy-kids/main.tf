@@ -1,3 +1,5 @@
+data "aws_availability_zones" "all" {}
+
 variable "server_port" {
   description = "The port the server will use for HTTP requests"
   type        = number
@@ -9,14 +11,8 @@ variable "elb_port" {
   default     = 80
 }
 
-data "aws_availability_zones" "all" {}
-
 provider "aws" {
-  #access_key = var.access_key
-  #secret_key = var.secret_key
-  #region     = var.region
   region     = "us-east-1"
-  #version    = "3.21.0"
 }
 
 resource "aws_security_group" "instance" {
@@ -27,7 +23,7 @@ resource "aws_security_group" "instance" {
     to_port     = var.server_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Web port 8080/tcp"
+    description = "Web port ${var.server_port}/tcp"
   }
   ingress {
     from_port   = 22
@@ -57,7 +53,6 @@ resource "aws_launch_configuration" "example" {
               sudo yum -y install httpd
               sudo echo "Hello World" > /var/www/html/index.html
               sudo systemctl enable httpd
-              #sudo systemctl start httpd
               sudo reboot
               EOF
   lifecycle {
@@ -67,14 +62,15 @@ resource "aws_launch_configuration" "example" {
 
 resource "aws_autoscaling_group" "example" {
   launch_configuration = aws_launch_configuration.example.name
-  #availability_zones   = data.aws_availability_zones.all.names
-  availability_zones   = ["us-east-1a"]
+  availability_zones   = data.aws_availability_zones.all.names
+  load_balancers    = [aws_elb.example.name]
+  health_check_type = "ELB"
+  
   #min size must be 1 for aws educate account
   min_size = 1
   desired_capacity = 2
   max_size = 3
-  load_balancers    = [aws_elb.example.name]
-  health_check_type = "ELB"
+
   tag {
     key                 = "Name"
     value               = "terraform-asg-example"
@@ -105,13 +101,14 @@ resource "aws_elb" "example" {
 resource "aws_security_group" "elb" {
   name = "terraform-example-elb"
 
-  # Allow all outbound
+  # Allow all outbound traffic
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
   # Inbound HTTP from anywhere
   ingress {
     from_port   = 80
