@@ -154,8 +154,13 @@ Initializing terraform will create the necessary configuration files in the curr
 
 ```shell
 cd ~/0-new_working_dir
+
 terraform init
+
+Initializing the backend...
+
 Initializing provider plugins...
+
 ...
 
 Terraform has been successfully initialized!
@@ -167,9 +172,16 @@ A terraform plan is used to create an execution plan. Terraform does a refresh a
 
 ```shell
 terraform plan
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
 ...
-...
-...
+
+Plan: 1 to add, 0 to change, 0 to destroy.
 ```
 
 ##### Apply your new configuration
@@ -178,28 +190,59 @@ Run the `terraform apply` command to generate 'real' resources in AWS
 
 ```shell
 terraform apply
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
 ...
-...
-...
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value:
 ```
 
 You will be prompted to confirm the changes before they're applied. Respond with `yes` to confirm.
 
+```shell
+aws_instance.web_server: Creating...
+aws_instance.web_server: Still creating... [10s elapsed]
+aws_instance.web_server: Still creating... [20s elapsed]
+aws_instance.web_server: Still creating... [30s elapsed]
+aws_instance.web_server: Creation complete after 34s [id=i-05d2bc520b72e64da]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+```
 #### Task 3: Get your machine's info and validate it is up
 
-Use the `terraform show` command to view the resources created and find the IP address for your instance.
+Use the `terraform show` command to view the resources created and validate the instance is running:
 
 ```shell
-terraform apply
+terraform show | grep 'instance_state\|public_ip'
+    associate_public_ip_address  = true
+    instance_state               = "running"
+    public_ip                    = "3.82.136.222"
+```
+
+If the instance_state is running, we have successfully created a new AWS instance!
+
+Optionally ping that address to ensure the instance is up and running.  It may not respond, depending on how your default security group is created.  It may also take a few minutes for the machine to respond after being built...
+
+```shell
+ping -c4 3.82.136.222
+
+PING 3.82.136.222 (3.82.136.222) 56(84) bytes of data.
+64 bytes from 3.82.136.222: icmp_seq=1 ttl=235 time=23.2 ms
 ...
 ```
 
-Ping that address to ensure the instance is up and running.  It may take a few minutes for the machine to respond...
-
-```shell
-ping ip.add.re.ss
-...
-```
+You can also verify within the AWS GUI console that your new instance is up and running.
 
 #### Task 4: Update your machine's configuration
 
@@ -213,12 +256,14 @@ Terraform can perform in-place updates on your instances after changes are made 
 ```hcl
   tags = {
     "Name"        = "My Instance Name"
-    "Identity"    = "##2-digit-number"
+    "Identity"    = "##-2-digit-student-number"
     "Environment" = "Training"
   }
 ```
 
 ##### Plan and apply the changes you just made
+
+In order to apply our new changes, we need to run `terraform apply`.  We can also run `terraform plan` to just view a report of what would be changed.
 
 Note the output differences for additions, deletions, and in-place changes.
 
@@ -235,21 +280,69 @@ You should see output indicating that the _aws_instance.web_ will be modified:
 ~ resource "aws_instance" "web" {
 
 ...
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: 
 ```
 
 When prompted to apply the changes, respond with `yes`.
+
+```text
+...
+
+aws_instance.web_server: Modifying... [id=i-05d2bc520b72e64da]
+aws_instance.web_server: Modifications complete after 2s [id=i-05d2bc520b72e64da]
+
+Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
+```
+
+Validate within the AWS GUI console that your changes have been applied.
 
 ### Use terraform to remove your machines
 
 Terraform is stateful, meaning that it maintains a copy of your configuration state in your current deployment.  By default, this state is kept in your working directory - that is wherever you ran your terraform commands from.  If you are following along my examples, this would be in the directory `~/0-new_working_dir`.  Make sure you are in this directory, and run the `terraform destroy` command to remove your items.
 
 ```code
-~/0-new_working_dir
+cd ~/0-new_working_dir
 terraform destroy
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_instance.web_server will be destroyed
+  - resource "aws_instance" "web_server" {
+
+...
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value:
 ```
 
 You will be prompted to destroy the infrastructure.  Respond with `yes`.
 
-#### It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!
+```text
+aws_instance.web_server: Destroying... [id=i-05d2bc520b72e64da]
+aws_instance.web_server: Still destroying... [id=i-05d2bc520b72e64da, 10s elapsed]
+aws_instance.web_server: Destruction complete after 41s
+
+Destroy complete! Resources: 1 destroyed.
+```
+
+Validate within the AWS GUI console that your instance has been destroyed.
+
+**It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!**
 
 You can now move to _Directory 1-one...!_

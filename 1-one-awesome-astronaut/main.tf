@@ -21,5 +21,7 @@ resource "aws_instance" "web_server" {
   # Add a Name tag for easy naming
   tags = {
     Name = "Web Server"
+    "Identity"    = "99"
+    "Environment" = "Training"
   }
 }
