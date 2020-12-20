@@ -5,11 +5,7 @@ variable "server_port" {
 }
 
 provider "aws" {
-  #access_key = var.access_key
-  #secret_key = var.secret_key
-  #region     = var.region
   region     = "us-east-1"
-  #version    = "3.21.0"
 }
 
 resource "aws_instance" "web_server" {
@@ -17,7 +13,6 @@ resource "aws_instance" "web_server" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.instance.id]
   key_name               = module.keypair.key_name
-  #private_key            = module.keypair.private_key_pem
 
   user_data = <<-EOF
               #!/bin/bash
