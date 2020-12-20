@@ -2,11 +2,11 @@
 
 Hello!  This will be a starting guide.  I will walk through the steps needed to complete the next item in the sequence.  If you follow along, you too can create these things.
 
-Estimated Duration: 20 minutes
-
 ## Set up your editor and environment
 
-You will need a few things installed to get started and a few pieces of information.  You'll need to edit files and run commands on your workstation.  This section details a simple way to set up your environment, however you can always do things differently.  Follow these steps below to connect to your SSH account within VSCode.
+Estimated Duration: 20 minutes
+
+You will need a few things installed and a few pieces of information to get started.  Your instructor will provide any necessary information (accounts, addresses, etc).  You'll need to be able edit files and run commands on your machine.  This section details a simple way to set up your environment, however you can always do things differently.  Follow these steps below to connect to your SSH account within VSCode.
 
 ### Visual Studio Code
 
@@ -84,9 +84,26 @@ This information will be provided for you by the instructor.
 
 ### SSH
 
-If you'd prefer to SSH directly into the server, you should already be familiar with how to use SSH and editing from the CLI.  On Windows, use an SSH client such as PuTTY or OpenSSH. On a Linux or Mac, use the Terminal and OpenSSH to connect to your workstation.
+If you'd prefer to SSH directly into the server (instead of, or in addition to, VSCode), you can do that as well.  You should already be familiar with how to use SSH and editing from the CLI.  On Windows, use an SSH client such as PuTTY or OpenSSH. On a Linux or Mac, use the Terminal and OpenSSH to connect to your workstation.  Those details are out of scope for this documentaiton.
+
+### Get Terraform, packer, and any other server side software needed
+
+Make sure that you can run the `terraform` command from your remote machine, or download if necessary.  You can also download the `packer` command for future labs.  Git is also a useful tool for us.
 
 ## Create a basic AWS Instance
+
+Estimated Duration: 25 minutes
+
+After getting the above set up, you can create a basic instance in AWS!
+
+### Create your first AWS deployment
+
+You should already have some stuff ready for this
+
+
+
+
+
 
 This is a work in progress, as is most things in life.
 
