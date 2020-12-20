@@ -1,4 +1,4 @@
-# Zero - A place to start.
+# Zero Zazzy Zettameters Zak - A place to start.
 
 Hello!  This will be a starting guide.  I will walk through the steps needed to complete the next item in the sequence.  If you follow along, you too can create these things.
 
@@ -7,7 +7,7 @@ I'm also using some stuff from here: https://blog.gruntwork.io/
 
 ## Set up your editor and environment
 
-Estimated Duration: 20 minutes
+Estimated Duration: 15-20 minutes
 
 You will need a few things installed and a few pieces of information to get started.  Your instructor will provide any necessary information (accounts/logins, servers/addresses, etc).  You'll need to be able edit files and run commands on your machine.  This section details a simple way to set up your environment, however you can always do things differently.  Follow the steps below to connect to your SSH account within VSCode.
 
@@ -32,7 +32,7 @@ There are a few steps to install and configure VSCode, but once set up it provid
 
 1. Install an OpenSSH compatible SSH client if one is not already present.
     - For Windows 10, follow [these instructions from Microsoft](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse).
-      Note: If you want to use PuTTY on Windows, you mush have it in your `PATH` as `ssh.exe`
+      Note: If you want to use PuTTY on Windows, you mush have it in your `PATH` as `ssh.exe` (unverified)
     - For MacOS and Linux, OpenSSH should already be installed. Open a terminal window and run `ssh -V` to make sure.
 
 1. Install the [Remote Development extension pack](https://aka.ms/vscode-remote/download/extension) for VSCode.
@@ -96,7 +96,14 @@ If you'd prefer to SSH directly into the server (instead of, or in addition to, 
 
 ### Get Terraform, packer, and any other server side software needed
 
-Make sure that you can run the `terraform` command from your remote machine, or download it if necessary.  You can also download the `packer` command for future labs.  Git is also a useful tool for us, so you should install that as well.  Validate that the terraform command is working, by running the below command in a terminal:
+Make sure that you can run the `terraform` command from your remote machine, or download it if necessary.  You can also download the `packer` command for future labs.  Git is also a useful tool for us, so you should install that as well.  
+
+If necessary - download the latest version of terraform, and make sure it is in your $PATH
+ * `/usr/local/bin/` is a common place
+
+You can download terraform from [terraform.io](https://www.terraform.io/downloads.html)
+
+Validate that the terraform command is working, by running the below command in a terminal:
 
 ```shell
 terraform -version
@@ -108,241 +115,14 @@ You should see something similar to:
 Terraform v0.14.3
 ```
 
-## Create a basic AWS instance
+### Set up your AWS credentials
 
-Estimated Duration: 25 minutes
-
-After getting the above set up, you can create a basic instance in AWS!
-
-### Create your first AWS deployment
-
-We will use Terraform to deploy a new instance to AWS.  There are a few steps we want to complete, to make sure we maintain a consistent working environment and create our infrastructure.
-
-- Task 1: Create a new working directory and initial config
-- Task 2: Deploy with Terraform
-- Task 3: Get machine info & validate
-- Task 4: Update config and apply
-
-#### Task 1: Create a working directory and initial configuration file
-
-Create a new directory for your first files.  You can call this anything you want.  I will use the name `~/0-new_working_dir` in my examples...
-
-Create a file in your new directory named `main.tf` - this will be our first Terraform configuraion file.  We want our file to contain the following items to be configured:
-- `ami` - The actual Amazon Machine Image to build our instance from
-- `instance_type` - The type/size/specs of the instance to build
-- `tags.Name` - A simple tag for the Name parameter
-
-Your final `main.tf` file should look similar to this (with different values):
-```hcl
-resource "aws_instance" "web" {
-  ami                    = "ami-04d29b6f966df1537"
-  instance_type          = "t2.micro"
-
-  tags = {
-    "Name" = "My Instance Name"
-  }
-}
-```
-
-Don't forget to save the file before moving on!  You can configure VSCode to autosave...
-
-#### Task 2: Use Terraform to deploy your new machine
-
-##### Navigate to the new directory and initialize Terraform:
-
-Initializing terraform will create the necessary configuration files in the current working directory that terraform will use to maintain information about your deployments.  To not modify these files unless absolutely necessary!
-
-```shell
-cd ~/0-new_working_dir
-
-terraform init
-
-Initializing the backend...
-
-Initializing provider plugins...
-
-...
-
-Terraform has been successfully initialized!
-```
-
-##### Plan your new configuration, and examine the output
-
-A terraform plan is used to create an execution plan. Terraform does a refresh and determines what actions are necessary to achieve the state specified in the config files.
-
-```shell
-terraform plan
-
-An execution plan has been generated and is shown below.
-Resource actions are indicated with the following symbols:
-  + create
-
-Terraform will perform the following actions:
-
-...
-
-Plan: 1 to add, 0 to change, 0 to destroy.
-```
-
-##### Apply your new configuration
-
-Run the `terraform apply` command to generate 'real' resources in AWS
-
-```shell
-terraform apply
-
-An execution plan has been generated and is shown below.
-Resource actions are indicated with the following symbols:
-  + create
-
-Terraform will perform the following actions:
-
-...
-
-Plan: 1 to add, 0 to change, 0 to destroy.
-
-Do you want to perform these actions?
-  Terraform will perform the actions described above.
-  Only 'yes' will be accepted to approve.
-
-  Enter a value:
-```
-
-You will be prompted to confirm the changes before they're applied. Respond with `yes` to confirm.
-
-```shell
-aws_instance.web_server: Creating...
-aws_instance.web_server: Still creating... [10s elapsed]
-aws_instance.web_server: Still creating... [20s elapsed]
-aws_instance.web_server: Still creating... [30s elapsed]
-aws_instance.web_server: Creation complete after 34s [id=i-05d2bc520b72e64da]
-
-Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
-```
-#### Task 3: Get your machine's info and validate it is up
-
-Use the `terraform show` command to view the resources created and validate the instance is running:
-
-```shell
-terraform show | grep 'instance_state\|public_ip'
-    associate_public_ip_address  = true
-    instance_state               = "running"
-    public_ip                    = "3.82.136.222"
-```
-
-If the instance_state is running, we have successfully created a new AWS instance!
-
-Optionally ping that address to ensure the instance is up and running.  It may not respond, depending on how your default security group is created.  It may also take a few minutes for the machine to respond after being built...
-
-```shell
-ping -c4 3.82.136.222
-
-PING 3.82.136.222 (3.82.136.222) 56(84) bytes of data.
-64 bytes from 3.82.136.222: icmp_seq=1 ttl=235 time=23.2 ms
-...
-```
-
-You can also verify within the AWS GUI console that your new instance is up and running.
-
-#### Task 4: Update your machine's configuration
-
-Terraform can perform in-place updates on your instances after changes are made to the `main.tf` configuration file.  Update your config as described below.
-
-##### Add two tags to the AWS instance in your `main.tf` file:
-
-- Identity
-- Environment
-
-```hcl
-  tags = {
-    "Name"        = "My Instance Name"
-    "Identity"    = "##-2-digit-student-number"
-    "Environment" = "Training"
-  }
-```
-
-##### Plan and apply the changes you just made
-
-In order to apply our new changes, we need to run `terraform apply`.  We can also run `terraform plan` to just view a report of what would be changed.
-
-Note the output differences for additions, deletions, and in-place changes.
-
-```shell
-terraform apply
-```
-
-You should see output indicating that the _aws_instance.web_ will be modified:
-
+On your remote machine, create the credentials file at `~/.aws/credentials`.  This file contains your default AWS credentials:
 ```text
-...
-
-# aws_instance.web will be updated in-place
-~ resource "aws_instance" "web" {
-
-...
-
-Plan: 0 to add, 1 to change, 0 to destroy.
-
-Do you want to perform these actions?
-  Terraform will perform the actions described above.
-  Only 'yes' will be accepted to approve.
-
-  Enter a value: 
+[default]
+ aws_access_key_id=<VALUE>
+ aws_secret_access_key=<VALUE>
+ aws_session_token=<VALUE>
 ```
 
-When prompted to apply the changes, respond with `yes`.
-
-```text
-...
-
-aws_instance.web_server: Modifying... [id=i-05d2bc520b72e64da]
-aws_instance.web_server: Modifications complete after 2s [id=i-05d2bc520b72e64da]
-
-Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
-```
-
-Validate within the AWS GUI console that your changes have been applied.
-
-### Use terraform to remove your machines
-
-Terraform is stateful, meaning that it maintains a copy of your configuration state in your current deployment.  By default, this state is kept in your working directory - that is wherever you ran your terraform commands from.  If you are following along my examples, this would be in the directory `~/0-new_working_dir`.  Make sure you are in this directory, and run the `terraform destroy` command to remove your items.
-
-```code
-cd ~/0-new_working_dir
-terraform destroy
-
-An execution plan has been generated and is shown below.
-Resource actions are indicated with the following symbols:
-  - destroy
-
-Terraform will perform the following actions:
-
-  # aws_instance.web_server will be destroyed
-  - resource "aws_instance" "web_server" {
-
-...
-
-Plan: 0 to add, 0 to change, 1 to destroy.
-
-Do you really want to destroy all resources?
-  Terraform will destroy all your managed infrastructure, as shown above.
-  There is no undo. Only 'yes' will be accepted to confirm.
-
-  Enter a value:
-```
-
-You will be prompted to destroy the infrastructure.  Respond with `yes`.
-
-```text
-aws_instance.web_server: Destroying... [id=i-05d2bc520b72e64da]
-aws_instance.web_server: Still destroying... [id=i-05d2bc520b72e64da, 10s elapsed]
-aws_instance.web_server: Destruction complete after 41s
-
-Destroy complete! Resources: 1 destroyed.
-```
-
-Validate within the AWS GUI console that your instance has been destroyed.
-
-**It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!**
-
-You can now move to _Directory 1-one...!_
+Hooray, we're ready to work!  You can now move to Directory _1-one-awesome-astronaut_!

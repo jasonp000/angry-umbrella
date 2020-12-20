@@ -25,3 +25,8 @@ resource "aws_instance" "web_server" {
     "Environment" = "Training"
   }
 }
+
+output "public_ip" {
+  value = aws_instance.web_server.*.public_ip
+  description = "Public IP Address"
+}
