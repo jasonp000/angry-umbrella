@@ -25,7 +25,7 @@ resource "aws_instance" "web_server" {
               sudo yum -y install httpd
               sudo echo "Hello World" > /var/www/html/index.html
               sudo systemctl enable httpd
-              sudo systemctl start httpd
+              #sudo systemctl start httpd
               sudo reboot
               EOF
 
