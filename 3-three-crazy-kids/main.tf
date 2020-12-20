@@ -69,8 +69,8 @@ resource "aws_autoscaling_group" "example" {
   launch_configuration = aws_launch_configuration.example.name
   #availability_zones   = data.aws_availability_zones.all.names
   availability_zones   = ["us-east-1a"]
-  min_size = 1
-  max_size = 3
+  min_size = 2
+  max_size = 4
   load_balancers    = [aws_elb.example.name]
   health_check_type = "ELB"
   tag {
@@ -130,3 +130,12 @@ output "clb_dns_name" {
   value       = aws_elb.example.dns_name
   description = "The domain name of the load balancer"
 }
+
+#output "public_ip" {
+#  value = aws_instance.web_server.*.public_ip
+#  description = "Public IP Address"
+#}
+
+#output "public_dns" {
+#  value = aws_instance.web_server.*.public_dns
+#}
