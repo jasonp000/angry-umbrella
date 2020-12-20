@@ -19,7 +19,7 @@ There are a few steps to install and configure VSCode, but once set up it provid
 - Task 1: Download VSCode
 - Task 2: Download the Remote-SSH Extension
 - Task 3: Configure SSH
-- Task 4: Connect to your workstation in VSCode
+- Task 4: Connect to your machine in VSCode
 
 #### Task 1: Download VSCode to your local machine and configure extensions
 
@@ -75,7 +75,7 @@ Create an ssh config file in `~/.ssh/` called `config` and add your workstation 
 
 This information will be provided for you by the instructor.
 
-#### Task 4: Connect to your server in VSCode
+#### Task 4: Connect to your machine in VSCode
 
 1. Using the Command Palette, choose `Remote-SSH: Connect to Host...`
 1. Select your SSH config file
@@ -103,7 +103,7 @@ You should see something similar to:
 Terraform v0.14.3
 ```
 
-## Create a basic AWS Instance
+## Create A Basic AWS Instance
 
 Estimated Duration: 25 minutes
 
@@ -115,11 +115,11 @@ After getting the above set up, you can create a basic instance in AWS!
 
 Create a new directory for your first files.  You can call this anything you want.  I will use the name `~/0-new_working_dir` in my examples...
 
-Create a file in your new directory named `main.tf` - this will be our first Terraform configuraion file.  We will want our file to contain the following items configured:
+Create a file in your new directory named `main.tf` - this will be our first Terraform configuraion file.  We want our file to contain the following items to be configured:
 
-- ami - The actual Amazon Machine Image to build our instance from
-- instance_type - The type/size/specs of the instance to build
-- tags.Name - A simple tag for the Name parameter
+- `ami` - The actual Amazon Machine Image to build our instance from
+- `instance_type` - The type/size/specs of the instance to build
+- `tags.Name` - A simple tag for the Name parameter
 
 Your final `main.tf` file should look similar to this (with different values):
 
@@ -142,9 +142,6 @@ Don't forget to save the file before moving on!  You can configure VSCode to aut
 ```shell
 cd ~/0-new_working_dir
 terraform init
-```
-
-```text
 Initializing provider plugins...
 ...
 
@@ -160,7 +157,7 @@ terraform plan
 ```
 
 ##### Apply your new configuration
-Run the `terraform apply` command to generate real resources in AWS
+Run the `terraform apply` command to generate 'real' resources in AWS
 
 ```shell
 terraform apply
@@ -169,8 +166,7 @@ terraform apply
 ...
 ```
 
-You will be prompted to confirm the changes before they're applied. Respond with
-`yes` to confirm.
+You will be prompted to confirm the changes before they're applied. Respond with `yes` to confirm.
 
 #### Task 3: Get your machine's info and validate it is up
 
