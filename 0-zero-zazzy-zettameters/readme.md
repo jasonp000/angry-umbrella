@@ -66,7 +66,7 @@ There are a few steps to install and configure VSCode, but once set up it provid
 
 1. Create your local ssh config on your machine.
 
-Create an ssh config file in `~/.ssh/` called `config` and add your workstation and user information.  For example:
+    Create an ssh config file in `~/.ssh/` called `config` and add your workstation and user information.  For example:
 
     ```text
     Host nickname
@@ -74,7 +74,7 @@ Create an ssh config file in `~/.ssh/` called `config` and add your workstation 
         HostName fqdn_or_ip
     ```
 
-This information will be provided for you by the instructor.
+    This information will be provided for you by the instructor.
 
 #### Task 4: Connect to your machine in VSCode
 
