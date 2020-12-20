@@ -2,7 +2,7 @@
 
 Hello!  This will be a starting guide.  I will walk through the steps needed to complete the next item in the sequence.  If you follow along, you too can create these things.
 
-I'm stealing some stuff from heere: https://github.com/gmaentz/terraform_training/
+I'm stealing some stuff from here: https://github.com/gmaentz/terraform_training/
 
 ## Set up your editor and environment
 
@@ -14,12 +14,12 @@ You will need a few things installed and a few pieces of information to get star
 
 Visual Studio Code, or VSCode, is a free popular open source editor from Microsoft. Using an extension called Remote-SSH, you can connect to a remote SSH account, edit files, and run commands all from within VSCode.
 
-There are a few steps to install and configure VSCode, but once set up, this provides an easy to use environment.
+There are a few steps to install and configure VSCode, but once set up it provides an easy to use environment.
 
 - Task 1: Download VSCode
 - Task 2: Download the Remote-SSH Extension
 - Task 3: Configure SSH
-- Task 4: Connection to your workstation in VSCode
+- Task 4: Connect to your workstation in VSCode
 
 #### Task 1: Download VSCode to your local machine and configure extensions
 
@@ -91,13 +91,13 @@ If you'd prefer to SSH directly into the server (instead of, or in addition to, 
 
 ### Get Terraform, packer, and any other server side software needed
 
-Make sure that you can run the `terraform` command from your remote machine, or download it if necessary.  You can also download the `packer` command for future labs.  Git is also a useful tool for us, so you should install that as well.  Validate that the commands are working, by running the below commands in a terminal:
+Make sure that you can run the `terraform` command from your remote machine, or download it if necessary.  You can also download the `packer` command for future labs.  Git is also a useful tool for us, so you should install that as well.  Validate that the terraform command is working, by running the below command in a terminal:
 
 ```shell
 terraform -version
 ```
 
-You should see:
+You should see something similar to:
 
 ```text
 Terraform v0.14.3
@@ -111,7 +111,9 @@ After getting the above set up, you can create a basic instance in AWS!
 
 ### Create your first AWS deployment
 
-Create a new directory for your first files.  You can call this anything you want.  I will use the name `0-new_working_dir` in my examples...
+#### Task 1: Create a working directory and initial config file
+
+Create a new directory for your first files.  You can call this anything you want.  I will use the name `~/0-new_working_dir` in my examples...
 
 Create a file in your new directory named `main.tf` - this will be our first Terraform configuraion file.  We will want our file to contain the following items configured:
 
@@ -134,9 +136,9 @@ resource "aws_instance" "web" {
 
 Don't forget to save the file before moving on!  You can configure VSCode to autosave...
 
-### Use Terraform to deploy your new machine
+#### Task 2: Use Terraform to deploy your new machine
 
-#### Navigate to the new directory and initialize Terraform:
+##### Navigate to the new directory and initialize Terraform:
 ```shell
 cd ~/0-new_working_dir
 terraform init
@@ -149,7 +151,7 @@ Initializing provider plugins...
 Terraform has been successfully initialized!
 ```
 
-#### Plan your new configuration, and examine the results
+##### Plan your new configuration, and examine the output
 ```shell
 terraform plan
 ...
@@ -157,8 +159,7 @@ terraform plan
 ...
 ```
 
-#### Apply your new configuration
-
+##### Apply your new configuration
 Run the `terraform apply` command to generate real resources in AWS
 
 ```shell
@@ -171,30 +172,40 @@ terraform apply
 You will be prompted to confirm the changes before they're applied. Respond with
 `yes` to confirm.
 
-#### Get your machine's info
+#### Task 3: Get your machine's info and validate it is up
 
 Use the `terraform show` command to view the resources created and find the IP address for your instance.
 
-Ping that address to ensure the instance is running and responding.
+```shell
+terraform apply
+...
+```
 
-#### Update your machine's configuration
+Ping that address to ensure the instance is up and running.  It may take a few minutes for the machine to respond...
+
+```shell
+ping ip.add.re.ss
+...
+```
+
+#### Task 4: Update your machine's configuration
 
 Terraform can perform in-place updates on your instances after changes are made to the `main.tf` configuration file.
 
-Add two tags to the AWS instance in your `main.tf` file:
+##### Add two tags to the AWS instance in your `main.tf` file:
 
 - Identity
 - Environment
 
 ```hcl
   tags = {
-    "Identity"    = "##2-digit-number"
     "Name"        = "My Instance Name"
+    "Identity"    = "##2-digit-number"
     "Environment" = "Training"
   }
 ```
 
-#### Plan and apply the changes you just made
+##### Plan and apply the changes you just made
 
 Note the output differences for additions, deletions, and in-place changes.
 
@@ -217,15 +228,17 @@ When prompted to apply the changes, respond with `yes`.
 
 ### Use terraform to remove your machines
 
-Terraform is stateful, meaning that it maintains a copy of your configuration state in your current deployment.  By default, this state is kept in your working directory - that is whereever you ran your terraform commands from.  If you are following along my examples, this would be in the directory `~/0-new_working_dir`.  Make sure you are in this directory, and run the `terraform destroy` command to remove your items.
+Terraform is stateful, meaning that it maintains a copy of your configuration state in your current deployment.  By default, this state is kept in your working directory - that is wherever you ran your terraform commands from.  If you are following along my examples, this would be in the directory `~/0-new_working_dir`.  Make sure you are in this directory, and run the `terraform destroy` command to remove your items.
 
-```codd
+```code
 ~/0-new_working_dir
 terraform destroy
 ```
 
 You will be prompted to destroy the infrastructure.  Respond with `yes`.
 It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!
+
+You can now move to _Directory Number 1!_
 
 ###### This is a work in progress, as is most things in life.
 
