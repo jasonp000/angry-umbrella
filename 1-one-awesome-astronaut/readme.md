@@ -4,13 +4,13 @@ Ok!  You should have a basic working environment, where you will be able to mani
 
 ## Create a basic AWS instance
 
-Estimated Duration: 25 minutes
+Estimated Duration: 20-25 minutes
 
-After getting the above set up, you can create a basic instance in AWS!
+After getting the environment set up, you can create a basic instance in AWS!
 
 ### Create your first AWS deployment
 
-We will use Terraform to deploy a new instance to AWS.  There are a few steps we want to complete, to make sure we maintain a consistent working environment and create our infrastructure.
+We will use Terraform to deploy a new instance to AWS.  There are a few tasks we want to complete, to make sure we maintain a consistent working environment for creating our infrastructure.
 
 - Task 1: Create a new working directory and initial config
 - Task 2: Deploy an instance with Terraform
@@ -19,7 +19,7 @@ We will use Terraform to deploy a new instance to AWS.  There are a few steps we
 
 #### Task 1: Create a working directory and initial configuration file
 
-Create a new directory for your first files.  You can call this anything you want.  I will use the name `~/0-new_working_dir` in my examples...
+Create a new directory for your first files.  You can call this anything you want.  I will use the name `~/new_working_dir` in my examples...
 
 Create a file in your new directory named `main.tf` - this will be our first Terraform configuraion file.  We want our file to contain the following items to be configured:
 - `ami` - The actual Amazon Machine Image to build our instance from
@@ -47,9 +47,8 @@ Don't forget to save the file before moving on!  You can configure VSCode to aut
 Initializing terraform will create the necessary configuration files in the current working directory that terraform will use to maintain information about your deployments.  Do not modify these files unless absolutely necessary!
 
 ```shell
-cd ~/0-new_working_dir
-
-terraform init
+$ cd ~/new_working_dir
+$ terraform init
 
 Initializing the backend...
 
@@ -65,7 +64,7 @@ Terraform has been successfully initialized!
 A terraform plan is used to create an execution plan. Terraform does a refresh and determines what actions are necessary to achieve the state specified in the config files.
 
 ```shell
-terraform plan
+$ terraform plan
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
@@ -83,7 +82,7 @@ Plan: 1 to add, 0 to change, 0 to destroy.
 Run the `terraform apply` command to generate **real** resources in AWS
 
 ```shell
-terraform apply
+$ terraform apply
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
@@ -118,7 +117,7 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 Use the `terraform show` command to view the resources created and validate the instance is running:
 
 ```shell
-terraform show | grep 'instance_state\|public_ip'
+$ terraform show | grep 'instance_state\|public_ip'
     associate_public_ip_address  = true
     instance_state               = "running"
     public_ip                    = "3.82.136.222"
@@ -129,7 +128,7 @@ If the instance_state is running, we have successfully created a new AWS instanc
 Optionally ping that address to ensure the instance is up and running.  It may not respond, depending on how your default security group is created.  It may also take a few minutes for the machine to respond after being built...
 
 ```shell
-ping -c4 3.82.136.222
+$ ping -c4 3.82.136.222
 
 PING 3.82.136.222 (3.82.136.222) 56(84) bytes of data.
 64 bytes from 3.82.136.222: icmp_seq=1 ttl=235 time=23.2 ms
@@ -162,7 +161,7 @@ In order to apply our new changes, we need to run `terraform apply`.  We can als
 Note the output differences for additions, deletions, and in-place changes.
 
 ```shell
-terraform apply
+$ terraform apply
 ```
 
 You should see output indicating that the _aws_instance.web_ will be modified:
@@ -204,8 +203,8 @@ At this point we have a machine, but it doesn't actually do anything.  Next we w
 Terraform is stateful, meaning that it maintains a copy of your configuration state in your current deployment.  By default, this state is kept in your working directory - that is wherever you ran your terraform commands from.  If you are following along my examples, this would be in the directory `~/0-new_working_dir`.  Make sure you are in this directory, and run the `terraform destroy` command to remove your items.
 
 ```code
-cd ~/0-new_working_dir
-terraform destroy
+$ cd ~/0-new_working_dir
+$ terraform destroy
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
@@ -245,7 +244,7 @@ Validate within the AWS GUI console that your instance has been destroyed.
 
 Estimated Duration: 5-10 minutes
 
-The machine we created above doesn't actually do amything for us, so let's make something better.  With a few quick modifications, our machine will install a basic web server for us, and display an output variable value for us at runtime.
+The machine we created above doesn't actually do anything for us, so let's make something better.  With a few quick modifications, our machine will install a basic web server for us, and display an output variable value for us at runtime.
 
 ### Set up our machine as a basic web server and add output data
 
@@ -318,8 +317,10 @@ public_ip = [
   "34.227.171.111",
 ]
 ```
-    
-**After applying, you will have a new instance, running a web server, on the ip address listed.  Wait a few minutes, then open a web browser and browse to the IP address listed.**
+
+Notice in the output above, you have the public IP address for your new server!
+
+After applying, you will have a new instance, running a web server, on the ip address listed.  Wait a few minutes, then open a web browser and browse to the IP address listed.
 
 ### Task 4: Cleanup
 
@@ -337,4 +338,4 @@ Validate within the AWS GUI console that your instance has been destroyed.
 
 **It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!!!**
 
-Congratulations, you can now move to Directory _2-two-big-brains_!
+Congratulations, you can now move to Directory [2 - Two Big Brains](../2-two-big-brains)!

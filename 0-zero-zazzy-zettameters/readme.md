@@ -92,13 +92,13 @@ There are a few steps to install and configure VSCode, but once set up it provid
 
 ### SSH (optional)
 
-If you'd prefer to SSH directly into the server (instead of, or in addition to, VSCode), you can do that as well.  You should already be familiar with how to use SSH and editing from the CLI.  On Windows, use an SSH client such as PuTTY or OpenSSH. On a Linux or Mac, use the Terminal and OpenSSH to connect to your workstation.  Those details are out of scope for this documentaiton.
+If you'd prefer to SSH directly into the server (instead of, or in addition to, VSCode), you can do that as well.  You should already be familiar with how to use SSH and editing from the CLI.  On Windows, use an SSH client such as PuTTY or OpenSSH. On a Linux or Mac, use the Terminal and OpenSSH to connect to your workstation.  Those details are out of scope for this documentation.
 
 ### Get Terraform, packer, and any other server side software needed
 
 Make sure that you can run the `terraform` command from your remote machine, or download it if necessary.  You can also download the `packer` command for future labs.  Git is also a useful tool for us, so you should install that as well.  
 
-If necessary - download the latest version of terraform, and make sure it is in your $PATH
+If necessary - download the latest version of terraform, and make sure it is in your `$PATH`
  * `/usr/local/bin/` is a common place
 
 You can download terraform from [terraform.io](https://www.terraform.io/downloads.html)
