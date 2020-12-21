@@ -1,4 +1,4 @@
-# Angry Umbrella - Some Terraform and Related Training
+# An Angry Umbrella - Some Terraform and Related Training
 
 Hello!  This is a collection of things used in Terraform/AWS training.  The assumption is that the user has a basic familiarity with AWS terms and definitions, along with some SSH and command line familiarity.  We will walk through a basic working environment setup, and some basic configuration steps to get started.
 

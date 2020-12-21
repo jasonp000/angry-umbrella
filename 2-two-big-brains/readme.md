@@ -39,6 +39,8 @@ module "keypair" {
 }
 ```
 
+This keypair module dynamically generates an SSH keypair, imports it into AWS, and provides the public/private keypair for you to use.  These keys are named `mykeypair.pem` and `mykeypair.pub` within the `keys/` folder.  It can also provide the name of the keypair created as an output variable.
+
 In order to use this module with our instance, we need to define the module within our instance.  Add the following ***within*** your aws_instance resource, below the instance_type definition:
 
 ```hcl
@@ -98,6 +100,7 @@ terraform apply --auto-approve
 ```
 
 Once our machine has deployed, we can use our newly created key to SSH in as the ec2-user:
-`ssh -i keys/mykeypair.pem ec2user@$(terraform output -json public_ip | jq -r '.[0])`
+
+`$ ssh -i keys/mykeypair.pem ec2user@$(terraform output -json public_ip | jq -r '.[0])`
 
 Alrighty then, lets move on to Directory [3 - Three Crazy Cats](../3-three-crazy-cats)!

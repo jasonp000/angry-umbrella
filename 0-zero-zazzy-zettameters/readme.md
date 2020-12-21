@@ -29,7 +29,7 @@ There are a few steps to install and configure VSCode, but once set up it provid
 
 1. Install an OpenSSH compatible SSH client if one is not already present.
     - For Windows 10, follow [these instructions from Microsoft](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse).
-      Note: If you want to use PuTTY on Windows, you mush have it in your `PATH` as `ssh.exe` (unverified)
+      Note: If you want to use PuTTY on Windows, you mush have it in your `$PATH` as `ssh.exe` (unverified)
     - For MacOS and Linux, OpenSSH should already be installed. Open a terminal window and run `ssh -V` to make sure.
 
 1. Install the [Remote Development extension pack](https://aka.ms/vscode-remote/download/extension) for VSCode.

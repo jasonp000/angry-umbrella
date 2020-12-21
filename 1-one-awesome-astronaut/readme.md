@@ -288,8 +288,11 @@ Add the following to the end of your `main.tf` file to create an ip address outp
 Execute the `terraform plan` and `terraform apply` commands to deploy your updated instance:
 
 ```code
-    terraform plan
-    terraform apply
+$ terraform plan
+
+...
+
+$ terraform apply
 
     An execution plan has been generated and is shown below.
     Resource actions are indicated with the following symbols:
@@ -323,7 +326,7 @@ After applying, you will have a new instance, running a web server, on the ip ad
 
 ### Task 4: Cleanup
 
-Run the `terraform destroy --auto-approve` command to delete the resources you created.
+Run the `terraform destroy --auto-approve` command to delete the resources you created.  We can add the `--auto-approve` option here, to prevent terraform from prompting us to continue.
 
 ```text
 aws_instance.web_server: Destroying... [id=i-08aabe955824ce806]
