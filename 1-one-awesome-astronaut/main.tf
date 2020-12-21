@@ -26,6 +26,7 @@ resource "aws_instance" "web_server" {
   }
 }
 
+# Display our public IP address as output after apply
 output "public_ip" {
   value = aws_instance.web_server.*.public_ip
   description = "Public IP Address"
