@@ -1,8 +1,8 @@
-# One Awesome Astronaut Andy - Deploy and manipulate an instance in AWS.
+# #1 - One Awesome Astronaut Andy - Deploy and manipulate an instance in AWS.
 
 Ok!  You should have a basic working environment, where you will be able to manipulate files and execute terraform commands.  Next steps, let's create some infrastructure!
 
-## Create a basic AWS instance
+## Part One - Create a basic AWS instance
 
 Estimated Duration: 20-25 minutes
 
@@ -240,7 +240,7 @@ Validate within the AWS GUI console that your instance has been destroyed.
 
 **It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!!!**
 
-## Create a simple web server AWS instance
+## Part Two - Create a simple web server AWS instance
 
 Estimated Duration: 5-10 minutes
 

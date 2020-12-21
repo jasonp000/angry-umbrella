@@ -1,4 +1,4 @@
-# Two Big Brains Brad - Add some variables and modules and more
+# #2 - Two Big Brains Brad - Add some variables and modules and more
 
 Now that we have been able to create a basic web server, let us variablize our configuration, implement a security group firewall around our instance, and dynamically create SSH keys for use with our new instance.
 
