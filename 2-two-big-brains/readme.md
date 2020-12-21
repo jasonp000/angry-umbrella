@@ -99,3 +99,5 @@ terraform apply --auto-approve
 
 Once our machine has deployed, we can use our newly created key to SSH in as the ec2-user:
 `ssh -i keys/mykeypair.pem ec2user@$(terraform output -json public_ip | jq -r '.[0])`
+
+Alrighty then, lets move on to Directory [3 - Three Crazy Cats](../3-three-crazy-cats)!

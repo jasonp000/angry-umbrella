@@ -1,4 +1,4 @@
-# Zero Zazzy Zettameters Zak - A place to start.
+# #0 - Zero Zazzy Zettameters Zak - A place to start.
 
 Hello!  This will be a starting guide.  I will walk through the steps needed to complete the next item in the sequence.  If you follow along, you too can create these things.
 
@@ -125,4 +125,4 @@ On your remote machine, create the credentials file at `~/.aws/credentials`.  Th
  aws_session_token=<VALUE>
 ```
 
-Hooray, we're ready to work!  You can now move to Directory _1-one-awesome-astronaut_!
+Hooray, we're ready to work!  You can now move to Directory [1 - One Awesome Astronaut](../1-one-awesome-astronaut)!
