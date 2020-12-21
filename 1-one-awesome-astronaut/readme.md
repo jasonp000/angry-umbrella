@@ -244,22 +244,22 @@ Validate within the AWS GUI console that your instance has been destroyed.
 
 Estimated Duration: 5-10 minutes
 
-The machine we created above doesn't actually do anything for us, so let's make something better.  With a few quick modifications, our machine will install a basic web server for us, and display an output variable value for us at runtime.
+The machine we created above doesn't actually do anything for us, so let's make something better.  With a few quick modifications, our machine will install a basic web server for us, and display the IP address as an output value for us at runtime.
 
 ### Set up our machine as a basic web server and add output data
 
-We will user the *user_data* parameter to install and start the web server package and create a default webpage.  The *user_data* is where we can put commands to be run on our instance after startup.
+We will use the *user_data* parameter to install and start the web server package and create a default webpage.  The *user_data* is where we can put commands to be run on our instance after startup.
 
 We will also have terraform display the IP address of our new machine as an output value, so we don't have to look it up ourselves.
 
-- Task 1: Add the user_data to your resource
+- Task 1: Add the `user_data` to your resource
 - Task 2: Add an output variable to your configuration
 - Task 3: Deploy the new thing and check it!
 - Task 4: Destroy and cleanup
 
 #### Task 1: Add a user_data parameter to your aws_instance resource
 
-Add these *user_data* commands in the aws_instance resource ***within*** your `main.tf` configuration file.  These commands will be run at startup to build our basic web server:
+Add these *user_data* commands in your `main.tf` configuration file ***within*** the aws_instance resource.  These commands will be run at startup to build our basic web server:
 
 ```hcl
   user_data = <<-EOF
@@ -272,7 +272,7 @@ Add these *user_data* commands in the aws_instance resource ***within*** your `m
 
 #### Task 2: Add an output variable to your `main.cf`
 
-The IP address of our instance is not known until it is built, and we don't want to have to manually look it up every time we build a machine.  Our solution is to tell terraform to output the value after building our new instance.
+The IP address of our instance is not known until the instance is built, and we don't want to have to manually look it up every time we build a machine.  Our solution is to tell terraform to output the value after building our new instance.
 
 Add the following to the end of your `main.tf` file to create an ip address output value.
 
@@ -285,10 +285,9 @@ Add the following to the end of your `main.tf` file to create an ip address outp
 
 #### Task 3: Deploy and check!
 
-Execute the `terraform init` and `terraform plan` and `terraform apply` commands to deploy your updated instance:
+Execute the `terraform plan` and `terraform apply` commands to deploy your updated instance:
 
 ```code
-    terraform init
     terraform plan
     terraform apply
 
