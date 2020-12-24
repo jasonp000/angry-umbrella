@@ -6,15 +6,21 @@ We should clean up what we have, and update our stuff a bit.  What we have doen 
 
 Estimated Duration: 25-30 minutes
 
-- Task 1: Cleanup
-- Task 2: Variablize
+- Task 1: Variablize
+- Task 2: Cleanup
 - Task 3: Modularize
 - Task 4: Modernize
 - Task 5: Test, connect, validate, and cleanup
 
-### Task 1: Cleanup
+### Task 1: Variablize
 
-### Task 2: Variablize
+variable "access_key" {}
+variable "secret_key" {}
+variable "region" {
+  default = "<REGION>"
+}
+
+### Task 2: Cleanup
 
 ### Task 3: Modularize
 
