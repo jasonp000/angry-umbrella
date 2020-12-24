@@ -10,6 +10,7 @@ Estimated Duration: 15-20 minutes
 - Task 2: Add the SSH module
 - Task 3: Create a security group definition
 - Task 4: Connect and validate
+- Task 5: Cleanup
 
 ### Task 1: Add a variable for our web server port
 
@@ -102,5 +103,23 @@ terraform apply --auto-approve
 Once our machine has deployed, we can use our newly created key to SSH in as the ec2-user:
 
 `$ ssh -i keys/mykeypair.pem ec2user@$(terraform output -json public_ip | jq -r '.[0])`
+
+### Task 5: Cleanup - Use terraform to remove your machines
+
+Remember to clean up after yourself!  Anything left running may cost you money!
+
+Run the `terraform destroy --auto-approve` command to delete the resources you created.  We can add the `--auto-approve` option here, to prevent terraform from prompting us to continue.
+
+```text
+aws_instance.web_server: Destroying... [id=i-08aabe955824ce806]
+aws_instance.web_server: Still destroying... [id=i-08aabe955824ce806, 10s elapsed]
+aws_instance.web_server: Destruction complete after 41s
+
+Destroy complete! Resources: 1 destroyed.
+```
+
+Validate within the AWS GUI console that your instance has been destroyed.
+
+**It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!!!**
 
 Alrighty then, lets move on to Directory [3 - Three Crazy Cats](../3-three-crazy-cats)!

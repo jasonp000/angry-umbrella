@@ -11,6 +11,7 @@ Estimated Duration: 15-20 minutes
 - Task 3: Create an autoscaling group definition
 - Task 4: Plan and apply
 - Task 5: Connect and validate
+- Task 6: Cleanup
 
 ### Task 1: Add the ELB variables, definition, and security group
 
@@ -130,5 +131,23 @@ terraform apply --auto-approve
 Once our machines have deployed, we can use our newly created key to SSH in as the ec2-user:
 
 `$ ssh -i keys/mykeypair.pem ec2user@$(terraform output -json public_ip | jq -r '.[0])`
+
+### Task 6: Cleanup - Use terraform to remove your machines
+
+Remember to clean up after yourself!  Anything left running may cost you money!
+
+Run the `terraform destroy --auto-approve` command to delete the resources you created.  We can add the `--auto-approve` option here, to prevent terraform from prompting us to continue.
+
+```text
+aws_instance.web_server: Destroying... [id=i-08aabe955824ce806]
+aws_instance.web_server: Still destroying... [id=i-08aabe955824ce806, 10s elapsed]
+aws_instance.web_server: Destruction complete after 41s
+
+Destroy complete! Resources: 1 destroyed.
+```
+
+Validate within the AWS GUI console that your instance has been destroyed.
+
+**It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!!!**
 
 When you are ready, proceed to Directory [4 - Four Dirty Dishes](../4-four-dirty-dishes)!

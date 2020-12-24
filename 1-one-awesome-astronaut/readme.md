@@ -2,13 +2,11 @@
 
 Ok!  You should have a basic working environment, where you will be able to manipulate files and execute terraform commands.  Next steps, let's create some infrastructure!
 
-## Part One - Create a basic AWS instance
+## Part One - Create your first basic AWS deployment
 
 Estimated Duration: 20-25 minutes
 
 After getting the environment set up, you can create a basic instance in AWS!
-
-### Create your first AWS deployment
 
 We will use Terraform to deploy a new instance to AWS.  There are a few tasks we want to complete, to make sure we maintain a consistent working environment for creating our infrastructure.
 
@@ -16,8 +14,9 @@ We will use Terraform to deploy a new instance to AWS.  There are a few tasks we
 - Task 2: Deploy an instance with Terraform
 - Task 3: Get machine info & validate
 - Task 4: Update config and apply
+- Task 5: Cleanup!
 
-#### Task 1: Create a working directory and initial configuration file
+### Task 1: Create a working directory and initial configuration file
 
 Create a new directory for your first files.  You can call this anything you want.  I will use the name `~/new_working_dir` in my examples...
 
@@ -40,9 +39,9 @@ resource "aws_instance" "web" {
 
 Don't forget to save the file before moving on!  You can configure VSCode to autosave...
 
-#### Task 2: Use Terraform to deploy your new machine
+### Task 2: Use Terraform to deploy your new machine
 
-##### Navigate to the new directory and initialize Terraform:
+#### Navigate to the new directory and initialize Terraform:
 
 Initializing terraform will create the necessary configuration files in the current working directory that terraform will use to maintain information about your deployments.  Do not modify these files unless absolutely necessary!
 
@@ -59,7 +58,7 @@ Initializing provider plugins...
 Terraform has been successfully initialized!
 ```
 
-##### Plan your new configuration, and examine the output
+#### Plan your new configuration, and examine the output
 
 A terraform plan is used to create an execution plan. Terraform does a refresh and determines what actions are necessary to achieve the state specified in the config files.
 
@@ -77,7 +76,7 @@ Terraform will perform the following actions:
 Plan: 1 to add, 0 to change, 0 to destroy.
 ```
 
-##### Apply your new configuration
+#### Apply your new configuration
 
 Run the `terraform apply` command to generate **real** resources in AWS
 
@@ -112,7 +111,7 @@ aws_instance.web_server: Creation complete after 34s [id=i-05d2bc520b72e64da]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
-#### Task 3: Get your machine's info and validate it is up
+### Task 3: Get your machine's info and validate it is up
 
 Use the `terraform show` command to view the resources created and validate the instance is running:
 
@@ -137,11 +136,11 @@ PING 3.82.136.222 (3.82.136.222) 56(84) bytes of data.
 
 You can also verify within the AWS GUI console that your new instance is up and running.
 
-#### Task 4: Update your machine's configuration
+### Task 4: Update your machine's configuration
 
 Terraform can perform in-place updates on your instances after changes are made to the `main.tf` configuration file.  Update your config as described below.
 
-##### Add two tags to the AWS instance in your `main.tf` file:
+#### Add two tags to the AWS instance in your `main.tf` file:
 
 - Identity
 - Environment
@@ -154,7 +153,7 @@ Terraform can perform in-place updates on your instances after changes are made 
   }
 ```
 
-##### Plan and apply the changes you just made
+#### Plan and apply the changes you just made
 
 In order to apply our new changes, we need to run `terraform apply`.  We can also run `terraform plan` to just view a report of what would be changed.
 
@@ -198,7 +197,7 @@ Validate within the AWS GUI console that your changes have been applied.
 
 At this point we have a machine, but it doesn't actually do anything.  Next we will destroy the machine, and then setup a basic web server.
 
-### Use terraform to remove your machines
+### Task 5: Cleanup - Use terraform to remove your machines
 
 Terraform is stateful, meaning that it maintains a copy of your configuration state in your current deployment.  By default, this state is kept in your working directory - that is wherever you ran your terraform commands from.  If you are following along my examples, this would be in the directory `~/0-new_working_dir`.  Make sure you are in this directory, and run the `terraform destroy` command to remove your items.
 
@@ -246,8 +245,6 @@ Estimated Duration: 5-10 minutes
 
 The machine we created above doesn't actually do anything for us, so let's make something better.  With a few quick modifications, our machine will install a basic web server for us, and display the IP address as an output value for us at runtime.
 
-### Set up our machine as a basic web server and add output data
-
 We will use the *user_data* parameter to install and start the web server package and create a default webpage.  The *user_data* is where we can put commands to be run on our instance after startup.
 
 We will also have terraform display the IP address of our new machine as an output value, so we don't have to look it up ourselves.
@@ -257,7 +254,7 @@ We will also have terraform display the IP address of our new machine as an outp
 - Task 3: Deploy the new thing and check it!
 - Task 4: Destroy and cleanup
 
-#### Task 1: Add a user_data parameter to your aws_instance resource
+### Task 1: Add a user_data parameter to your aws_instance resource
 
 Add these *user_data* commands in your `main.tf` configuration file ***within*** the aws_instance resource.  These commands will be run at startup to build our basic web server:
 
@@ -270,7 +267,7 @@ Add these *user_data* commands in your `main.tf` configuration file ***within***
               EOF
 ```
 
-#### Task 2: Add an output variable to your `main.cf`
+### Task 2: Add an output variable to your `main.cf`
 
 The IP address of our instance is not known until the instance is built, and we don't want to have to manually look it up every time we build a machine.  Our solution is to tell terraform to output the value after building our new instance.
 
@@ -283,7 +280,7 @@ Add the following to the end of your `main.tf` file to create an ip address outp
     }
 ```
 
-#### Task 3: Deploy and check!
+### Task 3: Deploy and check!
 
 Execute the `terraform plan` and `terraform apply` commands to deploy your updated instance:
 
@@ -324,7 +321,7 @@ Notice in the output above, you have the public IP address for your new server!
 
 After applying, you will have a new instance, running a web server, on the ip address listed.  Wait a few minutes, then open a web browser and browse to the IP address listed.
 
-### Task 4: Cleanup
+### Task 4: Cleanup - Use terraform to remove your machines
 
 Run the `terraform destroy --auto-approve` command to delete the resources you created.  We can add the `--auto-approve` option here, to prevent terraform from prompting us to continue.
 
