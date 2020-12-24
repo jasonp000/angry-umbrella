@@ -1,6 +1,6 @@
 # #4 - Four Dirty Dishes David - Cleanup and variablize and modularize and modernize
 
-We should clean up what we have
+We should clean up what we have, and update our stuff a bit.  What we have doen so far is fairly limited, and can be greatly expanded by using variables and modules and some additional settings.
 
 ## Cleanup
 

@@ -2,7 +2,7 @@
 
 A single web server providing services to your customers *works* but is not great.  Realistically you want multiple web servers, with a load balancer sitting in front of them.  To do this, lets create a Classic Elastic Load Balancer.  In conjunction with the ELB is the Auto Scaling Group, which will allow us to scale servers on demand.  Finally, along with the ASG is the Launch Config, which specifies how machines are created and launched by the ASG.
 
-## Create a basic security group definition, add SSH keys, and add some variables
+## Create an ELB, an ASG, a Launch Config, and add some variables
 
 Estimated Duration: 15-20 minutes
 
