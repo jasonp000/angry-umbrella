@@ -8,24 +8,24 @@ Estimated Duration: 15-20 minutes
 
 You will need a few things installed and a few pieces of information to get started.  Your instructor will provide any necessary information (accounts/logins, servers/addresses, etc).  You'll need to be able edit files and run commands on your machine.  This section details a simple way to set up your working environment, however you can always do things differently.  Follow the steps below to connect to your SSH account within VSCode.
 
-### Visual Studio Code
+- Task 1: Download & Install VSCode
+- Task 2: Download the Remote-SSH Extension
+- Task 3: Configure SSH
+- Task 4: Connect to your machine in VSCode
+- Task 5: Get terraform and packer and such
+- Task 6: Set up your AWS Credentials
+
+### Task 1: Download VSCode to your local machine and configure extensions
 
 Visual Studio Code, or VSCode, is a free popular open source editor from Microsoft. Using an extension called Remote-SSH, you can connect to a remote SSH account, edit files, and run commands all from within VSCode.
 
 There are a few steps to install and configure VSCode, but once set up it provides an easy to use environment.
 
-- Task 1: Download VSCode
-- Task 2: Download the Remote-SSH Extension
-- Task 3: Configure SSH
-- Task 4: Connect to your machine in VSCode
-
-#### Task 1: Download VSCode to your local machine and configure extensions
-
 1. Follow the instructions from [this site](https://code.visualstudio.com/download) to get the latest official download for your operating system.
 
 1. Get familiar with the VSCode user interface. Many things we do are supported natively with VSCode, and we will add extensions to provide extra functionality.
 
-#### Task 2: Download the Remote-SSH and additional extensions
+### Task 2: Download the Remote-SSH and additional extensions
 
 1. Install an OpenSSH compatible SSH client if one is not already present.
     - For Windows 10, follow [these instructions from Microsoft](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse).
@@ -40,7 +40,7 @@ There are a few steps to install and configure VSCode, but once set up it provid
     - HashiCorp Terraform
     - Python
 
-#### Task 3: Configure SSH
+### Task 3: Configure SSH
 
 1. Set up your SSH keys
 
@@ -73,7 +73,7 @@ There are a few steps to install and configure VSCode, but once set up it provid
 
     This information will be provided for you by the instructor.
 
-#### Task 4: Connect to your machine in VSCode
+### Task 4: Connect to your machine in VSCode
 
 1. Using the Command Palette, choose `Remote-SSH: Connect to Host...`
 
@@ -87,11 +87,7 @@ There are a few steps to install and configure VSCode, but once set up it provid
 
 1. You can also launch a terminal from VSCode for remote command line execution.  I am a big fan of this.
 
-### SSH (optional)
-
-If you'd prefer to SSH directly into the server (instead of, or in addition to, VSCode), you can do that as well.  You should already be familiar with how to use SSH and editing from the CLI.  On Windows, use an SSH client such as PuTTY or OpenSSH. On a Linux or Mac, use the Terminal and OpenSSH to connect to your workstation.  Those details are out of scope for this documentation.
-
-### Get Terraform, packer, and any other server side software needed
+### Task 5: Get Terraform, packer, and any other server side software needed
 
 Make sure that you can run the `terraform` command from your remote machine, or download it if necessary.  You can also download the `packer` command for future labs.  Git is also a useful tool for us, so you should install that as well.  
 
@@ -112,7 +108,9 @@ You should see something similar to:
 Terraform v0.14.3
 ```
 
-### Set up your AWS credentials
+### Task 6: Set up your AWS credentials
+
+You will need your AWS access key, secret access key, and session token.  Your instructor will provide you with instructions on accessing this information for your account.
 
 On your remote machine, create the credentials file at `~/.aws/credentials`.  This file contains your default AWS credentials:
 ```text
@@ -121,5 +119,9 @@ On your remote machine, create the credentials file at `~/.aws/credentials`.  Th
  aws_secret_access_key=<VALUE>
  aws_session_token=<VALUE>
 ```
+
+### SSH (optional)
+
+If you'd prefer to SSH directly into the server (instead of, or in addition to, VSCode), you can do that as well.  You should already be familiar with how to use SSH and editing from the CLI.  On Windows, use an SSH client such as PuTTY or OpenSSH. On a Linux or Mac, use the Terminal and OpenSSH to connect to your workstation.  Those details are out of scope for this documentation.
 
 Hooray, we're ready to work!  You can now move to Directory [1 - One Awesome Astronaut](../1-one-awesome-astronaut)!
