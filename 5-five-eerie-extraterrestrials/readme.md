@@ -6,11 +6,9 @@ More...
 
 Estimated Duration: 25-30 minutes???
 
-- Task 1: Cleanup
-- Task 2: Variablize
-- Task 3: Modularize
-- Task 4: Modernize
-- Task 5: Test, connect, validate, and cleanup
+- Task 1: Modularize
+- Task 2: Modernize
+- Task 3: Test, connect, validate, and cleanup
 
 ### Task 1: Cleanup
 
