@@ -7,7 +7,7 @@ A single web server providing services to your customers *works* but is not grea
 Estimated Duration: 15-20 minutes
 
 - Task 1: Add the Elastic Load Balancer variables, definition, and security group
-- Task 2: Add a Launch Configuration definition and remove the instance def
+- Task 2: Add a Launch Configuration definition and remove the instance definition
 - Task 3: Create an autoscaling group definition
 - Task 4: Plan and apply
 - Task 5: Connect and validate
@@ -71,7 +71,7 @@ resource "aws_elb" "example" {
 ```
 
 ### Task 2: Add a Launch Configuration resource and remove the instance definition
-Next, we want to change our instance resource to use a Launch Configuration resource instead.  Remove your web_server aws_instance resource, and replace it with the below example aws_launch_configuration code instead:
+Next, we want to change our instance resource to use a Launch Configuration resource instead.  **Remove your *web_server* aws_instance resource**, and replace it with the below example aws_launch_configuration code instead:
 ```hcl
 resource "aws_launch_configuration" "example" {
   image_id        = "ami-04d29b6f966df1537"
