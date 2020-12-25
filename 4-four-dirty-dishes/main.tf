@@ -1,19 +1,25 @@
+#variable "access_key" {}
+#variable "secret_key" {}
+variable "region" {
+  default = "us-east-1"
+}
+variable "ami" {}
+variable "instance_type" {}
+variable "subnet_id" {}
+variable "identity" {}
+variable "vpc_security_group_ids" {
+  type = list
+}
+variable "server_port" {}
+variable "elb_port" {}
+variable "ssh_port" {}
+
 data "aws_availability_zones" "all" {}
 
-variable "server_port" {
-  description   = "The port the server will use for HTTP requests"
-  type          = number
-  default       = 80
-}
-
-variable "elb_port" {
-  description   = "The port the ELB will use for HTTP requests"
-  type          = number
-  default       = 80
-}
-
 provider "aws" {
-  region        = "us-east-1"
+#  access_key = var.access_key
+#  secret_key = var.secret_key
+  region     = var.region
 }
 
 resource "aws_security_group" "instance" {
@@ -28,11 +34,11 @@ resource "aws_security_group" "instance" {
     description = "Web port ${var.server_port}/tcp"
   }
   ingress {
-    from_port   = 22
-    to_port     = 22
+    from_port   = var.ssh_port
+    to_port     = var.ssh_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "SSH port 22/tcp"
+    description = "SSH port ${var.ssh_port}/tcp"
   }
   egress {
     from_port   = 0
@@ -44,8 +50,8 @@ resource "aws_security_group" "instance" {
 }
 
 resource "aws_launch_configuration" "example" {
-  image_id        = "ami-04d29b6f966df1537"
-  instance_type   = "t2.micro"
+  image_id        = var.ami
+  instance_type   = var.instance_type
   security_groups = [aws_security_group.instance.id]
   key_name        = module.keypair.key_name
 
@@ -113,8 +119,8 @@ resource "aws_security_group" "elb" {
 
   # Inbound HTTP from anywhere
   ingress {
-    from_port           = 80
-    to_port             = 80
+    from_port           = var.elb_port
+    to_port             = var.elb_port
     protocol            = "tcp"
     cidr_blocks         = ["0.0.0.0/0"]
   }
