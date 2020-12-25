@@ -4,7 +4,7 @@ We should clean up what we have, and update our stuff a bit.  What we have doen 
 
 ## Modernize and fix up our code
 
-Estimated Duration: 25-30 minutes
+Estimated Duration: 15-20 minutes
 
 - Task 1: Variablize
 - Task 2: Remove old rubbish
