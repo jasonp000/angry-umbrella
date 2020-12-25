@@ -7,10 +7,9 @@ We should clean up what we have, and update our stuff a bit.  What we have doen 
 Estimated Duration: 25-30 minutes
 
 - Task 1: Variablize
-- Task 2: Cleanup
-- Task 3: Modularize
-- Task 4: Modernize
-- Task 5: Test, connect, validate, and cleanup
+- Task 2: Remove old rubbish
+- Task 3: Deploy, connect, and validate
+- Task 4: Cleanup
 
 ### Task 1: Variablize
 
@@ -36,6 +35,7 @@ provider "aws" {
   region     = var.region
 }
 ```
+This is called **interpolation** - we replace the hard coded values with the variable representation for these values.
 
 Now, run the `terraform plan` command, and notice that it is now asking you for values for the variables:
 ```
@@ -52,11 +52,11 @@ Since we did not provide any default or configured value for the access key and 
 access_key             = "<ACCESS_KEY>"
 secret_key             = "<SECRET_KEY>"
 aws_session_token      = "<SESSION_TOKEN>"
-region                 = "us-east-1"
 subnet_id              = "<SUBNET_ID>"
 identity               = "<STUDENT_IDENTITY>"
 vpc_security_group_ids = ["<SECURITY_GROUP_ID>"]
 ami                    = "ami-04d29b6f966df1537"
+region                 = "us-east-1"
 instance_type          = "t2.micro"
 server_port            = "80"
 elb_port               = "80"
@@ -129,7 +129,7 @@ Next, update our `main.tf` code to use these new variables.  There are a lot of 
   }
   ```
 
-### Task 2: Cleanup
+### Task 2: Remove old rubbish
 
 Continuing on with our variable changes, let's clean up a bit.  Since we put our `server_port` and `elb_port` variables into our `terraform.tfvars` variable file, we need to remove the definitions we already had.
 
@@ -150,12 +150,36 @@ variable "elb_port" {
 At this point, you can run a `terraform plan` to check your code changes and validate things are working as expected.
 You could also optionally run a `terraform apply` command to build the infrastructure using the new code.  Make sure to `terraform destroy` anything you build, to avoid incurring any excess charges.
 
-### Task 3: Modularize
+### Task 3: Deploy, connect, and validate
 
-So far, we have been doing everything in our `main.tf` file (except for our new variables file)
+Now that we have an updated main.cf file, we can deploy our new infrastructure with these new settings:
 
-### Task 4: Modernize
+```shell
+terraform init
+terraform plan
+terraform apply --auto-approve
+```
 
-### Task 5: Test, connect, validate, and cleanup
+Once our machines have deployed, we can use our newly created key to SSH in as the ec2-user:
+
+`$ ssh -i keys/mykeypair.pem ec2user@$(terraform output -json public_ip | jq -r '.[0])`
+
+### Task 4: Cleanup - Use terraform to remove your machines
+
+Remember to clean up after yourself!  Anything left running may cost you money!
+
+Run the `terraform destroy --auto-approve` command to delete the resources you created.  We can add the `--auto-approve` option here, to prevent terraform from prompting us to continue.
+
+```text
+aws_instance.web_server: Destroying... [id=i-08aabe955824ce806]
+aws_instance.web_server: Still destroying... [id=i-08aabe955824ce806, 10s elapsed]
+aws_instance.web_server: Destruction complete after 41s
+
+Destroy complete! Resources: 1 destroyed.
+```
+
+Validate within the AWS GUI console that your instance has been destroyed.
+
+**It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!!!**
 
 When you are ready, proceed to Directory [5 - Five Eerie Extraterrestrials](../5-five-eerie-extraterrestrials)!
