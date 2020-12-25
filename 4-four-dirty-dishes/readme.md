@@ -14,22 +14,16 @@ Estimated Duration: 25-30 minutes
 
 ### Task 1: Variablize
 
-Add the following variable blocks to the top of our file:
+First, add the following variable blocks to the top of our `main.tf` file:
 ```hcl
 variable "access_key" {}
 variable "secret_key" {}
 variable "region" {
   default = "us-east-1"
 }
-variable "ami" {}
-variable "subnet_id" {}
-variable "identity" {}
-variable "vpc_security_group_ids" {
-  type = list
-}
 ```
 
-Update your aws provider block to use these new variables:
+Next, update your aws provider block to use these new variables:
 ```hcl
 provider "aws" {
   access_key = var.access_key
@@ -38,7 +32,7 @@ provider "aws" {
 }
 ```
 
-Run the `terraform plan` command, and notice that it is now asking you for values for the variables:
+Now, run the `terraform plan` command, and notice that it is now asking you for values for the variables:
 ```
 & terraform plan
 ```
@@ -52,12 +46,17 @@ Since we did not provide any default or configured value for the access key and 
 ```hcl
 access_key             = "<ACCESS_KEY>"
 secret_key             = "<SECRET_KEY>"
+aws_session_token      = "<SESSION_TOKEN>"
 subnet_id              = "<SUBNET_ID>"
 identity               = "<STUDENT_IDENTITY>"
-region                 = "<REGION>"
+region                 = "us-east-1"
 vpc_security_group_ids = ["<SECURITY_GROUP_ID>"]
+ami                    = "ami-04d29b6f966df1537"
+instance_type          = "t2.micro"
+server_port            = "80"
+elb_port               = "80"
+ssh_port               = "22"
 num_webs               = "1"
-ami                    = "<AMI_ID>"
 ```
 
 Next, edit the resource block to use these new variables:
