@@ -1,3 +1,9 @@
+variable "server_port" {}
+variable "elb_port" {}
+variable "ssh_port" {}
+variable "ami" {}
+variable "instance_type" {}
+
 resource "aws_security_group" "instance" {
   name          = "Inbound Web and SSH, Outbound all"
   description   = "Traffic for web server"
@@ -102,3 +108,7 @@ resource "aws_security_group" "elb" {
   }
 }
 
+output "clb_dns_name" {
+  value                 = aws_elb.example.dns_name
+  description           = "The domain name of the load balancer"
+}
