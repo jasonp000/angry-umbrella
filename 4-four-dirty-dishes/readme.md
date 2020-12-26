@@ -148,15 +148,12 @@ variable "elb_port" {
 ```
 
 At this point, you can run a `terraform plan` to check your code changes and validate things are working as expected.
-You could also optionally run a `terraform apply` command to build the infrastructure using the new code.  Make sure to `terraform destroy` anything you build, to avoid incurring any excess charges.
 
 ### Task 3: Deploy, connect, and validate
 
 Now that we have an updated main.cf file, we can deploy our new infrastructure with these new settings:
 
 ```shell
-terraform init
-terraform plan
 terraform apply --auto-approve
 ```
 
