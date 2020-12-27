@@ -1,4 +1,4 @@
-# #4 - Four Dirty Dishes David - Variablize and clean up our code
+# #4 - Four Dirty Dogs Daisy - Variablize and clean up our code
 
 We should clean up what we have, and update our stuff a bit.  What we have doen so far is fairly limited, and can be greatly expanded by using variables and modules and some additional settings.
 

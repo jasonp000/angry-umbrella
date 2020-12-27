@@ -1,4 +1,4 @@
-# #5 - Five Eerie Extraterrestrials Evan - Modularize, modernize, and more
+# #5 - Five Eerie Extraterrestrials Elle - Modularize, modernize, and more
 
 Our single `main.tf` configuration file can be separated out into modules to better organize your configuration. This makes your code easier to read and reusable across your organization. You can also use the Public Module Registry to find pre-configured modules.
 

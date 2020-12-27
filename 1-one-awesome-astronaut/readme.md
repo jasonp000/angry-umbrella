@@ -1,4 +1,4 @@
-# #1 - One Awesome Astronaut Andy - Deploy and manipulate an instance in AWS.
+# #1 - One Awesome Astronaut Abby - Deploy and manipulate an instance in AWS.
 
 Ok!  You should have a basic working environment, where you will be able to manipulate files and execute terraform commands.  Next steps, let's create some infrastructure!
 
