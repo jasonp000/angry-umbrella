@@ -181,171 +181,54 @@ output "clb_dns_name" {
 }
 ```
 
-### Step 5.1.4
+Now run `terraform init` to install the module. Since we're just adding a module and no providers, we could optionally run `terraform get` instead, but `init` is safe to use as well. Even local modules need to be installed before they can be used.
 
-Now run `terraform get` or `terraform init` to install the module. Since we're
-just adding a module and no providers, `get` is sufficient, but `init` is safe
-to use too. Even local modules need to be installed before they can be used.
+Once that is complete, you can run `terraform plan` to validate things are working as expect3ed.
 
-Once you've done that, you can run `terraform apply` again. Notice that the the
-instance will be recreated, and its id changed, but everything else should
-remain the same.
+### Task 2: Explore the Public Module Registry
 
-```shell
-terraform apply
-```
+The creators of Terraform, HashiCorp, hosts a public module registry at: https://registry.terraform.io/
 
-```text
-
-# aws_instance.web will be destroyed
-- resource "aws_instance" "web" {
-
-...
-
-# module.server.aws_instance.web will be created
-+ resource "aws_instance" "web" {
-
-...
-```
-
-## Task 2: Explore the Public Module Registry
-
-### Step 5.2.1
-
-HashiCorp hosts a public module registry at: https://registry.terraform.io/
-
-The registry contains a large set of community-contributed modules that you can
-use in your own configurations. Explore the registry to see what is available to
-you.
-
-### Step 5.2.2
+The registry contains a large set of community-contributed modules that you can use in your own configurations. Explore the registry to see what is available to you.
 
 Search for "dynamic-keys" in the public registry and uncheck the "Verified" checkbox. You should then see a module called "dynamic-keys" created by one of HashiCorp's founders, Mitchell Hashimoto. Alternatively, you can navigate directly to https://registry.terraform.io/modules/mitchellh/dynamic-keys/aws/2.0.0.
 
+This is the dynamic-keys module we called before!
+
 Select this module and read the content on the Readme, Inputs, Outputs, and Resources tabs. This module will generate a public and private key pair so you can SSH into your instance.
 
-### Step 5.2.3
+### Task 3: Deploy, connect, and validate
 
-To integrate this module into your configuration, add this after your provider
-block in `main.tf`:
+Now that we have updated `main.cf` and `elb.tf` files, we can deploy our new infrastructure with these new settings.
 
-```hcl
-module "keypair" {
-  source  = "mitchellh/dynamic-keys/aws"
-  version = "2.0.0"
-  path    = "${path.root}/keys"
-  name    = "${var.identity}-key"
-}
+Run `terraform init` to make sure that all modules are downloaded and available, then `terraform plan` and `terraform apply` again to build your infrastructure with the new configuration files.  Don't forget clean up afterwards...
+
+```shell
+terraform init
+terraform plan
+terraform apply --auto-approve
 ```
 
-**__This module exposes the private key information in the Terraform state and should not be used in production!__**
+Once our machines have deployed, we can use our newly created key to SSH in as the ec2-user:
 
-Now you're referring to the module, but Terraform will need to download the
-module source before using it. Run the command `terraform init` to download it.
+`$ ssh -i keys/mykeypair.pem ec2user@$(terraform output -json public_ip | jq -r '.[0])`
 
-To provision the resources defined by the module, run `terraform apply`, and
-answer `yes` to the confirmation prompt.
+### Task 4: Cleanup - Use terraform to remove your machines
 
+Remember to clean up after yourself!  Anything left running may cost you money!
 
-### Step 5.2.4
-
-Now we'll use the _keypair_ module to install a public key on our server. In `main.tf`, add the necessary output from our key module to our server module:
-
-```hcl
-module "server" {
-  source = "./server"
-
-  ami                    = var.ami
-  subnet_id              = var.subnet_id
-  vpc_security_group_ids = var.vpc_security_group_ids
-  identity               = var.identity
-  key_name               = module.keypair.key_name
-  private_key            = module.keypair.private_key_pem
-}
-```
-
-### Step 5.2.5
-
-In your `server/server.tf` file, add two new variables to the rest of the variables at the top of the file:
-
-```hcl
-variable key_name {}
-variable private_key {}
-```
-
-Add the _key_name_ variable to the _aws_instance_ resource block in
-`server/server.tf`:
-
-```hcl
-resource "aws_instance" "web" {
-  ami                    = var.ami
-  instance_type          = "t2.micro"
-  subnet_id              = var.subnet_id
-  vpc_security_group_ids = var.vpc_security_group_ids
-  key_name               = var.key_name
-
-  # ... leave the rest of the block unchanged
-}
-```
-
-We'll use the private_key variable later.
-
-
-## Task 3: Refresh and rerun your Terraform configuration
-
-### Step 5.3.1
-
-Rerun `terraform apply` to delete the original instance and recreate it once
-again. Now the public key will be installed on the new instance.
-
-It may take a few minutes for the old instance to be destroyed and the new one crated. You might notice that both of these things happen in parallel:
-
-```
-...
-
-aws_instance.web: Destroying... [id=i-00b20b227c41eca94]
-module.server.aws_instance.web: Creating...
-aws_instance.web: Still destroying... [id=i-00b20b227c41eca94, 10s elapsed]
-module.server.aws_instance.web: Still creating... [10s elapsed]
-
-...
-```
-
-Since there are no dependencies between the two, terraform can do both operations at the same time. This does mean that while the apply is still being run, both instances could exist at the same time, or neither might.
-
-You'll also see that the outputs now include a list of (for now) one
-_public_dns_ value and one _public_ip_:
+Run the `terraform destroy --auto-approve` command to delete the resources you created.  We can add the `--auto-approve` option here, to prevent terraform from prompting us to continue.
 
 ```text
-...
+aws_instance.web_server: Destroying... [id=i-08aabe955824ce806]
+aws_instance.web_server: Still destroying... [id=i-08aabe955824ce806, 10s elapsed]
+aws_instance.web_server: Destruction complete after 41s
 
-Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
-
-Outputs:
-
-public_dns = ec2-54-184-51-90.us-west-2.compute.amazonaws.com
-public_ip = 54.184.51.90
+Destroy complete! Resources: 10 destroyed.
 ```
 
-When we moved the output configuration to the _server_ module, we changed the
-definition of these outputs to be lists. This is so that we can update the
-module to create several instances at once in a future lab.
+Validate within the AWS GUI console that your instance has been destroyed.
 
-
-
-
-
-
-
-
-
-
-### Task 2: Variablize
-
-### Task 3: Modularize
-
-### Task 4: Modernize
-
-### Task 5: Test, connect, validate, and cleanup
+**It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!!!**
 
 When you are ready, proceed to Directory [6 - Six F F](../6-six-f-f)!
