@@ -9,6 +9,15 @@ variable "vpc_security_group_ids" {
   type = list
 }
 
+data "aws_availability_zones" "all" {}
+
+module "keypair" {
+  source                = "mitchellh/dynamic-keys/aws"
+  version               = "2.0.0"
+  path                  = "${path.root}/keys"
+  name                  = "mykeypair-key"
+}
+
 resource "aws_security_group" "instance" {
   name          = "Inbound Web and SSH, Outbound all"
   description   = "Traffic for web server"
