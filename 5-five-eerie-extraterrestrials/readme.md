@@ -231,4 +231,4 @@ Validate within the AWS GUI console that your instance has been destroyed.
 
 **It is important to destroy any unused running instances and such in AWS, otherwise you can be charged!!!**
 
-When you are ready, proceed to Directory [6 - Six F F](../6-six-f-f)!
+When you are ready, proceed to Directory [6 - Six Friendly Felines](../6-six-friendly-felines)!
