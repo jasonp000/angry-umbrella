@@ -1,12 +1,10 @@
-# #5 - Five Eerie Extraterrestrials Evan - Modules
+# #5 - Five Eerie Extraterrestrials Evan - Modularize, modernize, and more
 
-More...
+Our single `main.tf` configuration file can be separated out into modules to better organize your configuration. This makes your code easier to read and reusable across your organization. You can also use the Public Module Registry to find pre-configured modules.
 
-## Modularize, modernize, and more
+## Modularize and fix up our code
 
 Estimated Duration: 25-30 minutes
-
-Configuration files can be separated out into modules to better organize your configuration. This makes your code easier to read and reusable across your organization. You can also use the Public Module Registry to find pre-configured modules.
 
 - Task 1: Refactor your code into a module
 - Task 2: Check out the Public Module Registry
@@ -18,7 +16,7 @@ Refactoring our code just means to rewrite it a new way.  Terraform allows us to
 
 Create a new directory called `elb` in your directory and create a new file inside of it called `elb.tf`.
 
-Edit the file `elb/elb.tf`, with the following contents:
+Edit the file `elb/elb.tf`, with the following variables:
 
 ```hcl
 variable "server_port" {}
@@ -31,7 +29,16 @@ variable "identity" {}
 variable "vpc_security_group_ids" {
   type = list
 }
+```
 
+This will expose the necessary variables to our new module.  Next, add the following **resources** to the same `elb.tf` file:
+- AWS Security Group Instance
+- AWS Launch Config Example
+- AWS Autoscaling Group Example
+- AWS ELB Example
+- AWS Security Group ELB
+
+```hcl
 resource "aws_security_group" "instance" {
   name          = "Inbound Web and SSH, Outbound all"
   description   = "Traffic for web server"
@@ -46,7 +53,7 @@ resource "aws_security_group" "instance" {
   ingress {
     from_port   = var.ssh_port
     to_port     = var.ssh_port
-    protocol    = "tcp"
+    prototocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     description = "SSH port ${var.ssh_port}/tcp"
   }
@@ -135,16 +142,11 @@ resource "aws_security_group" "elb" {
     cidr_blocks         = ["0.0.0.0/0"]
   }
 }
-
-output "clb_dns_name" {
-  value                 = aws_elb.example.dns_name
-  description           = "The domain name of the load balancer"
-}
 ```
 
-In your root configuration (also called your root module) `main.tf`, we can remove the previous references to your configuration and refactor them as a module.
+In your root configuration (also called your root module) `main.tf` file, we can remove the previous references to your configuration, since we are refactoring them as a module.  Remove all the resources **above** from your `main.tf` file.
 
-Remove everything that we added above, and add the following to our `main.tf` file:
+After removing everything that we added above, add the following to our `main.tf` file to call our new elb module:
 ```hcl
 module "elb" {
   source = "./elb"
@@ -160,10 +162,17 @@ module "elb" {
 }
 ```
 
-Our outputs should be defined in the root module as well. At the bottom of your
-`main.tf` configuration, modify the public IP and public DNS outputs to match
-the following. Notice the difference in interpolation now that the information
-is being delivered by a module.
+Notice in the code block above that we need to pass the variables that we want to use to our module.
+
+Finally, we can configure our output parameters.  We need to add an output block to your `elb.tf` file, to provide an output if called:
+```hcl
+output "clb_dns_name" {
+  value                 = aws_elb.example.dns_name
+  description           = "The domain name of the load balancer"
+}
+```
+
+Our outputs need to be called from the root module. At the bottom of your `main.tf` configuration, remove  the public IP and public DNS outputs and add the following. Notice the difference in interpolation now that the information is being delivered by a module.
 
 ```hcl
 output "clb_dns_name" {
