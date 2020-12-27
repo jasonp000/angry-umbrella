@@ -1,11 +1,8 @@
 variable "access_key" {}
 variable "secret_key" {}
 variable "aws_session_token" {}
-variable "region" {}
-variable "subnet_id" {}
-variable "identity" {}
-variable "vpc_security_group_ids" {
-  type = list
+variable "region" {
+  default = "us-east-1"
 }
 
 data "aws_availability_zones" "all" {}

@@ -3,6 +3,11 @@ variable "elb_port" {}
 variable "ssh_port" {}
 variable "ami" {}
 variable "instance_type" {}
+variable "subnet_id" {}
+variable "identity" {}
+variable "vpc_security_group_ids" {
+  type = list
+}
 
 resource "aws_security_group" "instance" {
   name          = "Inbound Web and SSH, Outbound all"
